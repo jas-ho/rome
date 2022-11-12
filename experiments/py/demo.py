@@ -18,6 +18,7 @@ def demo_model_editing(
     requests: List[Dict],
     generation_prompts: List[str],
     alg_name: str = "ROME",
+    **kwargs,
 ) -> Tuple[AutoModelForCausalLM, Dict[str, torch.Tensor]]:
     """
     Applies the selected model editing algorithm. Generates text both before and after
@@ -47,7 +48,7 @@ def demo_model_editing(
 
     print_loud(f"Applying {alg_name} to model")
     model_new, orig_weights = apply_method(
-        model, tok, requests, hparams, return_orig_weights=True
+        model, tok, requests, hparams, return_orig_weights=True, **kwargs,
     )
 
     print_loud("Generating post-update text")

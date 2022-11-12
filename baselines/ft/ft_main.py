@@ -1,3 +1,4 @@
+import pickle
 from copy import deepcopy
 from typing import Any, Dict, List, Tuple
 
@@ -30,6 +31,10 @@ def apply_ft_to_model(
         model = deepcopy(model)
 
     deltas = execute_ft(model, tok, requests, hparams)
+    if "save_deltas_to" in kwargs:
+        with open(kwargs["save_deltas_to"], "wb") as f:
+            pickle.dump(obj=deltas, file=f)
+        print(f"Exported deltas to {kwargs['save_deltas_to']}.")
 
     with torch.no_grad():
         for w_name, upd_matrix in deltas.items():
